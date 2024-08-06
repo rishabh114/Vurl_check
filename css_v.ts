@@ -2,9 +2,13 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: '<div [innerHTML]="userInput"></div>',
+  template: '<div [innerHTML]="getUserInput()"></div>',
 })
 export class AppComponent {
-  // Source: User input
   userInput: string = '<img src=x onerror=alert(1)>';
+
+  getUserInput(): string {
+    // Unsafe direct assignment, more detectable by static analysis tools
+    return this.userInput;
+  }
 }
