@@ -1,12 +1,15 @@
-import { Component, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-@Component({
-  selector: 'app-config',
-  template: `<p>API Key: [Hidden]</p>`
+@Injectable({
+  providedIn: 'root'
 })
-export class ConfigComponent {
-  constructor(@Inject(DOCUMENT) private document: Document) {
-    // Retrieve API key from a secure source
+export class DataService {
+  private apiUrl = 'http://example.com/api/data'; // Insecure URL
+
+  constructor(private http: HttpClient) {}
+
+  getData() {
+    return this.http.get(this.apiUrl);
   }
 }
