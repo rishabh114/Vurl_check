@@ -1,21 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-user-input',
+  template: `<input [(ngModel)]="userInput" placeholder="Enter something" />
+             <button (click)="submit()">Submit</button>`
 })
-export class AuthService {
-  // Hardcoded password (vulnerable)
-  private readonly hardcodedPassword = 'supersecretpassword';
+export class UserInputComponent {
+  userInput: string = '';
 
-  constructor(private http: HttpClient) {}
-
-  login(username: string, password: string) {
-    if (password === this.hardcodedPassword) {
-      // Proceed with login logic
-      return this.http.post('/api/login', { username, password });
-    } else {
-      throw new Error('Invalid credentials');
-    }
+  submit() {
+    document.getElementById('output').innerHTML = this.userInput;
   }
 }
