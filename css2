@@ -1,21 +1,31 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-login',
-  template: `<input [(ngModel)]="username" placeholder="Username" />
-             <input [(ngModel)]="password" placeholder="Password" type="password" />
-             <button (click)="login()">Login</button>`
+  selector: 'app-contact-form',
+  template: `<form [formGroup]="contactForm" (ngSubmit)="submit()">
+               <input formControlName="name" placeholder="Name" />
+               <input formControlName="email" placeholder="Email" />
+               <textarea formControlName="message" placeholder="Message"></textarea>
+               <button type="submit">Send</button>
+             </form>`
 })
-export class LoginComponent {
-  username: string = '';
-  password: string = '';
+export class ContactFormComponent {
+  contactForm: FormGroup;
 
-  constructor(private authService: AuthService) {}
-
-  login() {
-    this.authService.login(this.username, this.password).subscribe(response => {
-      localStorage.setItem('token', response.token);
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.contactForm = this.fb.group({
+      name: [''],
+      email: [''],
+      message: ['']
     });
+  }
+
+  submit() {
+    this.http.post('http://example.com/api/contact', this.contactForm.value)
+      .subscribe(response => {
+        console.log('Form submitted successfully');
+      });
   }
 }
