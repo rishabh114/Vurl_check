@@ -1,14 +1,21 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Component({
-  selector: 'app-user-input',
-  template: `<input [(ngModel)]="userInput" placeholder="Enter something" />
-             <button (click)="submit()">Submit</button>`
+  selector: 'app-login',
+  template: `<input [(ngModel)]="username" placeholder="Username" />
+             <input [(ngModel)]="password" placeholder="Password" type="password" />
+             <button (click)="login()">Login</button>`
 })
-export class UserInputComponent {
-  userInput: string = '';
+export class LoginComponent {
+  username: string = '';
+  password: string = '';
 
-  submit() {
-    document.getElementById('output').innerHTML = this.userInput;
+  constructor(private authService: AuthService) {}
+
+  login() {
+    this.authService.login(this.username, this.password).subscribe(response => {
+      localStorage.setItem('token', response.token);
+    });
   }
 }
