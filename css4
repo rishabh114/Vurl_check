@@ -1,0 +1,12 @@
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
+@Component({
+  selector: 'app-config',
+  template: `<p>API Key: [Hidden]</p>`
+})
+export class ConfigComponent {
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    // Retrieve API key from a secure source
+  }
+}
