@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  template: '<div [innerHTML]="safeHtml"></div>',
+  template: '<div [innerHTML]="getUserInput()"></div>',
 })
 export class AppComponent {
-  // Source: User input
   userInput: string = '<img src=x onerror=alert(1)>';
-  // Sink: Sanitized HTML
-  safeHtml: SafeHtml;
 
-  constructor(private sanitizer: DomSanitizer) {
-    // Sanitizing the user input
-    this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(this.userInput);
+  getUserInput(): string {
+    // Unsafe direct assignment, more detectable by static analysis tools
+    return this.userInput;
   }
 }
